@@ -1,5 +1,7 @@
-Embeddings
+Embeddings**
 ==============================
+
+### ** In progress
 
 A simple visual embedding projector with tensorflow
 
