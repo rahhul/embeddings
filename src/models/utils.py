@@ -6,7 +6,10 @@ import tensorflow_datasets as tfds
 
 print(tf.__version__)
 
+print(os.getcwd())
+
 SHUFFLE_BUFFER_SIZE = 30000
+
 
 # get dataset
 def load_dataset(name):
@@ -15,40 +18,41 @@ def load_dataset(name):
     """
     dataset, info = tfds.load(name=name,
                               with_info=True,
-                              data_dir='/data/external')
+                              data_dir='data/external')
     train_dataset = dataset['train']
     train_dataset = train_dataset.shuffle(SHUFFLE_BUFFER_SIZE,
                                           reshuffle_each_iteration=False)
-    
+
     return train_dataset
-    
+
 
 # tokenize text
 def tokenize_text(dataset):
     """Tokenize text and save a vocabulary file
     """
     tokenizer = tfds.features.text.Tokenizer()
-    vocabulary = set()
+    vocabulary = set() # removes duplicates
     for _, reviews in dataset.enumerate():
         review_text = reviews['data']
         reviews_tokens = tokenizer.tokenize(review_text.get('review_body').numpy())
         # add to vocabulary set
         vocabulary.update(reviews_tokens)
-    
+
     # encode vocabulary
     encoder = tfds.features.text.TokenTextEncoder(vocabulary)
-    # encoder.save_to_file('vocab')
-    print("Saved vocabulary file.")    
-        
+    encoder.save_to_file('vocab')
+    print("Saved vocabulary file.")
+
     return len(vocabulary)
 
-def foo(x):
-    if x is 'foo':
-        return 'bar'
-    else :
-        return 'baz'
-    
-        
+
+# function to encode review_body text
+def encode():
+    """Encodes dataset with the encoder.
+    """
+    pass
+
+
 data_name = 'amazon_us_reviews/Mobile_Electronics_v1_00'
 
 sample_dataset = load_dataset(name=data_name)
