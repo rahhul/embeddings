@@ -21,7 +21,25 @@ def load_dataset(name):
     
     return train_dataset
     
-      
+
+# tokenize text
+def tokenize_text(dataset):
+    """Tokenize text and save a vocabulary file
+    """
+    tokenizer = tfds.features.text.Tokenizer()
+    vocabulary = set()
+    for _, reviews in dataset.enumerate():
+        review_text = reviews['data']
+        reviews_tokens = tokenizer.tokenize(review_text.get('review_body').numpy())
+        # add to vocabulary set
+        vocabulary.update(reviews_tokens)
+    
+    # encode vocabulary
+    encoder = tfds.features.text.TokenTextEncoder(vocabulary)
+    # encoder.save_to_file('vocab')
+    print("Saved vocabulary file.")    
+        
+    return len(vocabulary)
 
 def foo(x):
     if x is 'foo':
@@ -30,3 +48,8 @@ def foo(x):
         return 'baz'
     
         
+data_name = 'amazon_us_reviews/Mobile_Electronics_v1_00'
+
+sample_dataset = load_dataset(name=data_name)
+sample_vocab = tokenize_text(sample_dataset)
+print(sample_vocab)
