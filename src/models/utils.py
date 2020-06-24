@@ -1,5 +1,6 @@
 # python3
 
+import os
 import tensorflow as tf
 import tensorflow_datasets as tfds
 
@@ -14,7 +15,7 @@ def load_dataset(name):
     """
     dataset, info = tfds.load(name=name,
                               with_info=True,
-                              data_dir='./data/external')
+                              data_dir='/data/external')
     train_dataset = dataset['train']
     train_dataset = train_dataset.shuffle(SHUFFLE_BUFFER_SIZE,
                                           reshuffle_each_iteration=False)
