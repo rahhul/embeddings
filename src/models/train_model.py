@@ -36,10 +36,10 @@ model.add(tf.keras.layers.Dense(1))
 print(model.summary())
 
 logdir = os.path.join(
-    "/training/logs", datetime.datetime.now().strftime('%Y%m%d-%H%M%S'))
+    "/tmp/logs", datetime.datetime.now().strftime('%Y%m%d-%H%M%S'))
 tensorboard_callback = tf.keras.callbacks.TensorBoard(logdir, histogram_freq=1)
 checkpointer = tf.keras.callbacks.ModelCheckpoint(
-    filepath='/training/sentiment_analysis.hdf5', verbose=1, save_best_only=True)
+    filepath='/tmp/sentiment_analysis.hdf5', verbose=1, save_best_only=True)
 
 model.compile(optimizer='adam', loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
               metrics=['accuracy'])
@@ -47,4 +47,4 @@ model.compile(optimizer='adam', loss=tf.keras.losses.BinaryCrossentropy(from_log
 history = model.fit(train_data, epochs=2, validation_data=test_data,
                     callbacks=[tensorboard_callback, checkpointer])
 
-model.save('/training/final_model.hdf5')
+model.save('/tmp/final_model.hdf5')

@@ -44,6 +44,8 @@ def tokenize_text(dataset):
 encoder = tfds.features.text.TokenTextEncoder.load_from_file('vocab')
 # encoder.load_from_file("vocab")
 
+
+
 # function to encode review_body text
 def encode(text_tensor, label_tensor):
     """Encodes dataset with the encoder.
